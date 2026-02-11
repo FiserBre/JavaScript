@@ -3,162 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mastering JavaScript: Kompletní Průvodce</title>
+    <title>JS Masterclass: Od Nuly k Profíkovi</title>
     <style>
         :root {
-            --primary: #f7df1e;
-            --dark: #222;
-            --light: #f4f4f4;
+            --js-yellow: #f7df1e;
+            --js-black: #111;
+            --bg-gray: #f8f9fa;
+            --code-bg: #2d2d2d;
+            --text-main: #333;
             --accent: #007acc;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; display: flex; background: var(--light); }
-        
-        /* Navigace */
-        nav { width: 250px; height: 100vh; background: var(--dark); color: white; position: fixed; overflow-y: auto; padding: 20px; }
-        nav h2 { color: var(--primary); font-size: 1.2rem; }
-        nav a { display: block; color: #ccc; text-decoration: none; padding: 8px 0; border-bottom: 1px solid #444; font-size: 0.9rem; }
-        nav a:hover { color: var(--primary); }
 
-        /* Obsah */
-        main { margin-left: 290px; padding: 40px; max-width: 900px; background: white; min-height: 100vh; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
-        
-        h1 { color: var(--dark); border-bottom: 4px solid var(--primary); display: inline-block; }
-        h2 { color: var(--accent); margin-top: 40px; border-left: 5px solid var(--primary); padding-left: 15px; }
-        
-        .code-block { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 8px; overflow-x: auto; position: relative; margin: 20px 0; }
-        .code-header { position: absolute; top: 0; right: 0; background: #444; color: #eee; padding: 2px 10px; font-size: 0.7rem; text-transform: uppercase; }
-        
-        .demo-box { border: 2px dashed #ccc; padding: 20px; margin: 10px 0; background: #fafafa; border-radius: 8px; }
-        button { background: var(--accent); color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px; }
-        button:hover { opacity: 0.9; }
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background: var(--bg-gray); color: var(--text-main); line-height: 1.6; }
 
-        .note { background: #fff3cd; border-left: 5px solid #ffeeba; padding: 15px; margin: 20px 0; }
-        footer { margin-top: 50px; text-align: center; color: #888; font-size: 0.8rem; }
+        /* --- NAVBAR & HAMBURGER --- */
+        nav {
+            background: var(--js-black);
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .logo { font-weight: bold; font-size: 1.5rem; color: var(--js-yellow); text-decoration: none; }
+
+        .nav-links { display: flex; list-style: none; gap: 20px; margin: 0; }
+        .nav-links a { color: white; text-decoration: none; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--js-yellow); }
+
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+        .hamburger span { width: 25px; height: 3px; background: var(--js-yellow); border-radius: 2px; }
+
+        /* --- LAYOUT --- */
+        .container { max-width: 1100px; margin: 80px auto 40px; display: grid; grid-template-columns: 280px 1fr; gap: 30px; padding: 0 20px; }
+
+        aside { position: sticky; top: 100px; height: calc(100vh - 120px); overflow-y: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        aside h4 { margin-top: 0; color: var(--accent); border-bottom: 2px solid var(--js-yellow); padding-bottom: 5px; }
+        aside ul { list-style: none; padding: 0; }
+        aside li { margin-bottom: 10px; }
+        aside a { text-decoration: none; color: #555; font-size: 0.9rem; }
+        aside a:hover { color: var(--accent); }
+
+        main { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* --- CONTENT STYLES --- */
+        h1 { color: var(--js-black); font-size: 2.5rem; margin-bottom: 0.5rem; }
+        h2 { color: var(--accent); margin-top: 2rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        code { background: #eee; padding: 2px 5px; border-radius: 4px; font-family: monospace; color: #d63384; }
+        
+        .code-window { background: var(--code-bg); color: #f8f8f2; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; border-left: 5px solid var(--js-yellow); }
+        .code-window pre { margin: 0; }
+
+        .interactive-demo { background: #eefbff; border: 1px solid #bdeaff; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .btn { background: var(--js-black); color: var(--js-yellow); border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.2s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+
+        /* --- RESPONSIVITA --- */
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            aside { display: none; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: var(--js-black);
+                padding: 20px;
+                text-align: center;
+            }
+            .nav-links.active { display: flex; }
+        }
     </style>
 </head>
 <body>
 
 <nav>
-    <h2>Obsah kurzu</h2>
-    <a href="#intro">1. Co je JavaScript?</a>
-    <a href="#variables">2. Proměnné (let, const)</a>
-    <a href="#datatypes">3. Datové typy</a>
-    <a href="#operators">4. Operátory</a>
-    <a href="#logic">5. Podmínky a Logika</a>
-    <a href="#loops">6. Cykly</a>
-    <a href="#functions">7. Funkce & Arrow functions</a>
-    <a href="#arrays">8. Pole a Metody</a>
-    <a href="#objects">9. Objekty</a>
-    <a href="#dom">10. DOM Manipulace</a>
-    <a href="#async">11. Asynchronní JS (Promises)</a>
+    <a href="#" class="logo">JS_LEARN</a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#zaklady">Základy</a></li>
+        <li><a href="#datove-typy">Typy</a></li>
+        <li><a href="#pole">Pole & Objekty</a></li>
+        <li><a href="#dom">DOM</a></li>
+        <li><a href="#asynchronita">Async</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </nav>
 
-<main>
-    <section id="intro">
-        <h1>Výuka JavaScriptu (ES6+)</h1>
-        <p>Vítejte v interaktivní učebnici. JavaScript je mozkem webových stránek. Zatímco HTML dává strukturu a CSS vzhled, JS dává život.</p>
-    </section>
-
-    <hr>
-
-    <section id="variables">
-        <h2>2. Proměnné</h2>
-        <p>V moderním JS používáme primárně <code>let</code> a <code>const</code>. Zapomeňte na staré <code>var</code>.</p>
-        <div class="code-block">
-            <span class="code-header">javascript</span>
-            <pre>
-let jmeno = "Petr"; // Hodnota, která se může měnit
-const pi = 3.14;    // Konstanta, nelze přepsat
-
-jmeno = "Jan";      // OK
-// pi = 3.15;       // CHYBA!
-            </pre>
-        </div>
-    </section>
-
-    <section id="datatypes">
-        <h2>3. Datové typy</h2>
+<div class="container">
+    <aside>
+        <h4>Rychlá navigace</h4>
         <ul>
-            <li><strong>String:</strong> "Text"</li>
-            <li><strong>Number:</strong> 42 nebo 3.14</li>
-            <li><strong>Boolean:</strong> true / false</li>
-            <li><strong>Array:</strong> [1, 2, 3]</li>
-            <li><strong>Object:</strong> { klic: "hodnota" }</li>
+            <li><a href="#promenne">Proměnné</a></li>
+            <li><a href="#funkce">Funkce</a></li>
+            <li><a href="#cykly">Cykly a Iterace</a></li>
+            <li><a href="#pole-metody">Metody polí</a></li>
+            <li><a href="#udalosti">Události (Events)</a></li>
+            <li><a href="#fetch">Načítání dat</a></li>
         </ul>
-    </section>
+    </aside>
 
-    <section id="logic">
-        <h2>5. Podmínky</h2>
-        <p>Rozhodování v kódu pomocí <code>if</code>, <code>else if</code> a <code>else</code>.</p>
-        <div class="code-block">
-            <pre>
-let vek = 20;
-if (vek >= 18) {
-    console.log("Můžeš vstoupit");
-} else {
-    console.log("Vstup zakázán");
-}
-            </pre>
-        </div>
-    </section>
+    <main>
+        <section id="zaklady">
+            <h1>JavaScript: Kompletní Průvodce</h1>
+            <p>JavaScript je skriptovací jazyk, který umožňuje vytvářet dynamicky se aktualizující obsah, ovládat multimédia, animovat obrázky a mnoho dalšího.</p>
+            
+            <h2 id="promenne">1. Proměnné a Scope</h2>
+            <p>V moderním JavaScriptu zapomeňte na <code>var</code>. Používáme:</p>
+            <ul>
+                <li><code>let</code> - pro proměnné, které budeme měnit.</li>
+                <li><code>const</code> - pro hodnoty, které zůstávají konstantní.</li>
+            </ul>
+            <div class="code-window">
+<pre>const dph = 0.21;
+let cenaBezDane = 100;
+let celkem = cenaBezDane * (1 + dph);
 
-    <section id="functions">
-        <h2>7. Funkce</h2>
-        <p>Funkce jsou bloky kódu, které můžete volat opakovaně.</p>
-        <div class="code-block">
-            <pre>
-// Klasická funkce
+console.log(celkem); // 121</pre>
+            </div>
+        </section>
+
+        <section id="datove-typy">
+            <h2>2. Datové typy</h2>
+            <p>JavaScript je <strong>dynamicky typovaný</strong> jazyk. To znamená, že nemusíte specifikovat typ proměnné při jejím vytváření.</p>
+            <div class="code-window">
+<pre>let text = "String";    // Text
+let cislo = 42;          // Number
+let pravda = true;       // Boolean
+let prazdno = null;      // Null (záměrně prázdné)
+let nedefinovano;        // Undefined</pre>
+            </div>
+        </section>
+
+        <section id="funkce">
+            <h2>3. Funkce a Arrow Functions</h2>
+            <p>Funkce jsou základní stavební kameny. Moderní zápis "Arrow function" je kratší a elegantnější.</p>
+            <div class="code-window">
+<pre>// Klasický zápis
 function pozdrav(jmeno) {
-    return "Ahoj " + jmeno;
+    return `Ahoj ${jmeno}!`;
 }
 
-// Moderní Arrow Function
-const vynasob = (a, b) => a * b;
+// Arrow function (moderní)
+const pozdravModerni = (jmeno) => `Ahoj ${jmeno}!`;</pre>
+            </div>
+        </section>
 
-console.log(vynasob(5, 5)); // 25
-            </pre>
-        </div>
-    </section>
+        <section id="pole">
+            <h2 id="pole-metody">4. Pole a moderní metody</h2>
+            <p>Práce s poli je v JS extrémně silná díky metodám jako <code>map</code>, <code>filter</code> a <code>forEach</code>.</p>
+            <div class="code-window">
+<pre>const cisla = [1, 2, 3, 4, 5];
 
-    <section id="dom">
-        <h2>10. DOM Manipulace</h2>
-        <p>Pomocí JS můžeme měnit obsah HTML prvků přímo v prohlížeči.</p>
-        <div class="demo-box">
-            <p id="text-k-zmene">Tento text se změní po kliknutí na tlačítko.</p>
-            <button onclick="zmenText()">Změnit text!</button>
-        </div>
-        <script>
-            function zmenText() {
-                const p = document.getElementById('text-k-zmene');
-                p.innerText = "Text byl úspěšně změněn JavaScriptem!";
-                p.style.color = "green";
-                p.style.fontWeight = "bold";
-            }
-        </script>
-    </section>
+// Vytvoří nové pole, kde jsou všechna čísla dvojnásobná
+const dvojnasobek = cisla.map(n => n * 2); 
 
-    <section id="async">
-        <h2>11. Asynchronní JavaScript</h2>
-        <p>Důležité pro načítání dat z internetu (API) bez zaseknutí stránky.</p>
-        <div class="code-block">
-            <pre>
-async function nactiData() {
+// Vyfiltruje pouze sudá čísla
+const suda = cisla.filter(n => n % 2 === 0);</pre>
+            </div>
+        </section>
+
+        <section id="dom">
+            <h2 id="udalosti">5. DOM Manipulace a Události</h2>
+            <p>Zde se děje kouzlo. Můžete reagovat na kliknutí, psaní do klávesnice nebo pohyb myši.</p>
+            
+            <div class="interactive-demo">
+                <h3 id="demo-nadpis">Změň mě pomocí JS!</h3>
+                <input type="text" id="vstup-jmeno" placeholder="Napiš své jméno...">
+                <button class="btn" onclick="spustDemo()">Klikni na mě</button>
+                <p id="vysledek-demo"></p>
+            </div>
+
+            <script>
+                function spustDemo() {
+                    const jmeno = document.getElementById('vstup-jmeno').value;
+                    const nadpis = document.getElementById('demo-nadpis');
+                    const vysledek = document.getElementById('vysledek-demo');
+
+                    if(jmeno) {
+                        nadpis.innerText = `Vítej, ${jmeno}!`;
+                        nadpis.style.color = "#007acc";
+                        vysledek.innerText = "Právě jsi manipuloval s DOMem!";
+                    } else {
+                        alert("Prosím, zadej jméno.");
+                    }
+                }
+            </script>
+        </section>
+
+        <section id="asynchronita">
+            <h2 id="fetch">6. Asynchronní JS (Fetch API)</h2>
+            <p>Většina moderních aplikací komunikuje se serverem pomocí <code>fetch</code> a <code>async/await</code>.</p>
+            <div class="code-window">
+<pre>async function ziskejData() {
     try {
-        let response = await fetch('https://api.example.com/data');
-        let data = await response.json();
-        console.log(data);
-    } catch (error) {
-        console.error("Něco se nepovedlo");
+        const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
+        const user = await response.json();
+        console.log(`Uživatel: ${user.name}`);
+    } catch (err) {
+        console.error("Chyba při načítání:", err);
     }
-}
-            </pre>
-        </div>
-    </section>
+}</pre>
+            </div>
+        </section>
+    </main>
+</div>
 
-    <footer>
-        <p>&copy; 2026 Interaktivní Průvodce JavaScriptem</p>
-    </footer>
-</main>
+<script>
+    // Funkce pro Hamburger Menu
+    function toggleMenu() {
+        const links = document.getElementById('navLinks');
+        links.classList.toggle('active');
+    }
+
+    // Zavření menu po kliknutí na odkaz (pro mobily)
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('navLinks').classList.remove('active');
+        });
+    });
+</script>
 
 </body>
 </html>
