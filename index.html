@@ -3,238 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS Masterclass: Od Nuly k Profíkovi</title>
+    <title>JS Masterclass: Pokročilé & Responzivní</title>
     <style>
         :root {
             --js-yellow: #f7df1e;
             --js-black: #111;
-            --bg-gray: #f8f9fa;
-            --code-bg: #2d2d2d;
-            --text-main: #333;
-            --accent: #007acc;
+            --bg-dark: #1e1e1e;
+            --accent: #ff79c6;
+            --text-gray: #d4d4d4;
+            --nav-height: 70px;
         }
 
-        * { box-sizing: border-box; scroll-behavior: smooth; }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background: var(--bg-gray); color: var(--text-main); line-height: 1.6; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: #252526; color: var(--text-gray); line-height: 1.6; }
 
-        /* --- NAVBAR & HAMBURGER --- */
+        /* --- EXTRÉMNĚ RESPONZIVNÍ NAVBAR --- */
         nav {
             background: var(--js-black);
-            color: white;
-            padding: 1rem 2rem;
+            height: var(--nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-bottom: 2px solid var(--js-yellow);
         }
 
-        .logo { font-weight: bold; font-size: 1.5rem; color: var(--js-yellow); text-decoration: none; }
+        .logo { color: var(--js-yellow); font-weight: 800; font-size: 1.5rem; text-decoration: none; }
 
-        .nav-links { display: flex; list-style: none; gap: 20px; margin: 0; }
-        .nav-links a { color: white; text-decoration: none; transition: 0.3s; font-size: 0.9rem; }
-        .nav-links a:hover { color: var(--js-yellow); }
+        .nav-menu { display: flex; list-style: none; gap: 20px; }
+        .nav-menu a { color: white; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: 0.3s; }
+        .nav-menu a:hover { color: var(--js-yellow); }
 
-        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
-        .hamburger span { width: 25px; height: 3px; background: var(--js-yellow); border-radius: 2px; }
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; background: none; border: none; }
+        .hamburger span { width: 28px; height: 3px; background: var(--js-yellow); transition: 0.4s; }
 
-        /* --- LAYOUT --- */
-        .container { max-width: 1100px; margin: 80px auto 40px; display: grid; grid-template-columns: 280px 1fr; gap: 30px; padding: 0 20px; }
+        /* --- HLAVNÍ LAYOUT --- */
+        .wrapper {
+            max-width: 1200px;
+            margin: calc(var(--nav-height) + 40px) auto 40px;
+            display: grid;
+            grid-template-columns: 1fr 300px; /* Hlavní obsah vlevo, panel vpravo */
+            gap: 30px;
+            padding: 0 20px;
+        }
 
-        aside { position: sticky; top: 100px; height: calc(100vh - 120px); overflow-y: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        aside h4 { margin-top: 0; color: var(--accent); border-bottom: 2px solid var(--js-yellow); padding-bottom: 5px; }
-        aside ul { list-style: none; padding: 0; }
-        aside li { margin-bottom: 10px; }
-        aside a { text-decoration: none; color: #555; font-size: 0.9rem; }
-        aside a:hover { color: var(--accent); }
+        header { grid-column: 1 / -1; text-align: center; padding: 40px 0; }
+        header h1 { font-size: clamp(2rem, 5vw, 3.5rem); color: var(--js-yellow); }
 
-        main { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        main { min-width: 0; } /* Prevence přetečení v gridu */
 
-        /* --- CONTENT STYLES --- */
-        h1 { color: var(--js-black); font-size: 2.5rem; margin-bottom: 0.5rem; }
-        h2 { color: var(--accent); margin-top: 2rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        code { background: #eee; padding: 2px 5px; border-radius: 4px; font-family: monospace; color: #d63384; }
-        
-        .code-window { background: var(--code-bg); color: #f8f8f2; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; border-left: 5px solid var(--js-yellow); }
-        .code-window pre { margin: 0; }
+        section { 
+            background: #2d2d2d; 
+            padding: clamp(20px, 5vw, 40px); 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); 
+        }
 
-        .interactive-demo { background: #eefbff; border: 1px solid #bdeaff; padding: 20px; border-radius: 8px; margin: 20px 0; }
-        .btn { background: var(--js-black); color: var(--js-yellow); border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 4px; transition: 0.2s; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0,0,0,0.2); }
+        h2 { color: var(--js-yellow); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
 
-        /* --- RESPONSIVITA --- */
-        @media (max-width: 900px) {
-            .container { grid-template-columns: 1fr; }
-            aside { display: none; }
+        /* --- KÓD A KOMPONENTY --- */
+        .code-block {
+            background: #000;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            border-left: 4px solid var(--accent);
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: var(--js-yellow);
+            color: black;
+            border: none;
+            padding: 12px 24px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* --- BOČNÍ PANEL (SIDEBAR) --- */
+        .sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .card { background: #333; padding: 20px; border-radius: 8px; border: 1px solid #444; }
+        .card h3 { color: var(--js-yellow); margin-bottom: 10px; font-size: 1.1rem; }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 992px) {
+            .wrapper { grid-template-columns: 1fr; }
+            .sidebar { order: -1; } /* Panel se posune nad hlavní obsah na tabletech */
+        }
+
+        @media (max-width: 768px) {
             .hamburger { display: flex; }
-            .nav-links {
-                display: none;
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: var(--nav-height);
                 flex-direction: column;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                width: 100%;
                 background: var(--js-black);
-                padding: 20px;
+                width: 100%;
                 text-align: center;
+                transition: 0.3s;
+                padding: 40px 0;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.5);
             }
-            .nav-links.active { display: flex; }
+            .nav-menu.active { left: 0; }
         }
     </style>
 </head>
 <body>
 
 <nav>
-    <a href="#" class="logo">JS_LEARN</a>
-    <ul class="nav-links" id="navLinks">
-        <li><a href="#zaklady">Základy</a></li>
-        <li><a href="#datove-typy">Typy</a></li>
-        <li><a href="#pole">Pole & Objekty</a></li>
-        <li><a href="#dom">DOM</a></li>
-        <li><a href="#asynchronita">Async</a></li>
-    </ul>
-    <div class="hamburger" onclick="toggleMenu()">
+    <a href="#" class="logo">JS.CORE</a>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
         <span></span>
         <span></span>
         <span></span>
     </div>
+    <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html">Domů</a></li>
+        <li><a href="zaklady.html">Základy</a></li>
+        <li><a href="oop.html">OOP & Třídy</a></li>
+        <li><a href="async.html">Async / Await</a></li>
+        <li><a href="api.html">Práce s API</a></li>
+        <li><a href="projekty.html">Projekty</a></li>
+    </ul>
 </nav>
 
-<div class="container">
-    <aside>
-        <h4>Rychlá navigace</h4>
-        <ul>
-            <li><a href="#promenne">Proměnné</a></li>
-            <li><a href="#funkce">Funkce</a></li>
-            <li><a href="#cykly">Cykly a Iterace</a></li>
-            <li><a href="#pole-metody">Metody polí</a></li>
-            <li><a href="#udalosti">Události (Events)</a></li>
-            <li><a href="#fetch">Načítání dat</a></li>
-        </ul>
-    </aside>
+<div class="wrapper">
+    <header>
+        <h1>Pokročilý JavaScript</h1>
+        <p>Vítej v modulu zaměřeném na architekturu a moderní syntaxi.</p>
+    </header>
 
     <main>
-        <section id="zaklady">
-            <h1>JavaScript: Kompletní Průvodce</h1>
-            <p>JavaScript je skriptovací jazyk, který umožňuje vytvářet dynamicky se aktualizující obsah, ovládat multimédia, animovat obrázky a mnoho dalšího.</p>
+        <section id="oop-info">
+            <h2>📦 OOP a Třídy</h2>
+            <p>V moderním vývoji organizujeme kód do tříd. To nám pomáhá udržet systém přehledný a škálovatelný.</p>
             
-            <h2 id="promenne">1. Proměnné a Scope</h2>
-            <p>V moderním JavaScriptu zapomeňte na <code>var</code>. Používáme:</p>
-            <ul>
-                <li><code>let</code> - pro proměnné, které budeme měnit.</li>
-                <li><code>const</code> - pro hodnoty, které zůstávají konstantní.</li>
-            </ul>
-            <div class="code-window">
-<pre>const dph = 0.21;
-let cenaBezDane = 100;
-let celkem = cenaBezDane * (1 + dph);
-
-console.log(celkem); // 121</pre>
-            </div>
-        </section>
-
-        <section id="datove-typy">
-            <h2>2. Datové typy</h2>
-            <p>JavaScript je <strong>dynamicky typovaný</strong> jazyk. To znamená, že nemusíte specifikovat typ proměnné při jejím vytváření.</p>
-            <div class="code-window">
-<pre>let text = "String";    // Text
-let cislo = 42;          // Number
-let pravda = true;       // Boolean
-let prazdno = null;      // Null (záměrně prázdné)
-let nedefinovano;        // Undefined</pre>
-            </div>
-        </section>
-
-        <section id="funkce">
-            <h2>3. Funkce a Arrow Functions</h2>
-            <p>Funkce jsou základní stavební kameny. Moderní zápis "Arrow function" je kratší a elegantnější.</p>
-            <div class="code-window">
-<pre>// Klasický zápis
-function pozdrav(jmeno) {
-    return `Ahoj ${jmeno}!`;
-}
-
-// Arrow function (moderní)
-const pozdravModerni = (jmeno) => `Ahoj ${jmeno}!`;</pre>
-            </div>
-        </section>
-
-        <section id="pole">
-            <h2 id="pole-metody">4. Pole a moderní metody</h2>
-            <p>Práce s poli je v JS extrémně silná díky metodám jako <code>map</code>, <code>filter</code> a <code>forEach</code>.</p>
-            <div class="code-window">
-<pre>const cisla = [1, 2, 3, 4, 5];
-
-// Vytvoří nové pole, kde jsou všechna čísla dvojnásobná
-const dvojnasobek = cisla.map(n => n * 2); 
-
-// Vyfiltruje pouze sudá čísla
-const suda = cisla.filter(n => n % 2 === 0);</pre>
-            </div>
-        </section>
-
-        <section id="dom">
-            <h2 id="udalosti">5. DOM Manipulace a Události</h2>
-            <p>Zde se děje kouzlo. Můžete reagovat na kliknutí, psaní do klávesnice nebo pohyb myši.</p>
             
-            <div class="interactive-demo">
-                <h3 id="demo-nadpis">Změň mě pomocí JS!</h3>
-                <input type="text" id="vstup-jmeno" placeholder="Napiš své jméno...">
-                <button class="btn" onclick="spustDemo()">Klikni na mě</button>
-                <p id="vysledek-demo"></p>
-            </div>
-
-            <script>
-                function spustDemo() {
-                    const jmeno = document.getElementById('vstup-jmeno').value;
-                    const nadpis = document.getElementById('demo-nadpis');
-                    const vysledek = document.getElementById('vysledek-demo');
-
-                    if(jmeno) {
-                        nadpis.innerText = `Vítej, ${jmeno}!`;
-                        nadpis.style.color = "#007acc";
-                        vysledek.innerText = "Právě jsi manipuloval s DOMem!";
-                    } else {
-                        alert("Prosím, zadej jméno.");
-                    }
-                }
-            </script>
-        </section>
-
-        <section id="asynchronita">
-            <h2 id="fetch">6. Asynchronní JS (Fetch API)</h2>
-            <p>Většina moderních aplikací komunikuje se serverem pomocí <code>fetch</code> a <code>async/await</code>.</p>
-            <div class="code-window">
-<pre>async function ziskejData() {
-    try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
-        const user = await response.json();
-        console.log(`Uživatel: ${user.name}`);
-    } catch (err) {
-        console.error("Chyba při načítání:", err);
-    }
+            
+            <div class="code-block">
+                <pre style="color: #9cdcfe;"><span style="color: #569cd6;">class</span> <span style="color: #4ec9b0;">Auto</span> {
+  <span style="color: #569cd6;">constructor</span>(znacka) {
+    <span style="color: #569cd6;">this</span>.znacka = znacka;
+  }
+  start() { <span style="color: #c586c0;">return</span> <span style="color: #ce9178;">"Vroom!"</span>; }
 }</pre>
             </div>
         </section>
+
+        <section id="storage-lab">
+            <h2>💾 LocalStorage Laboratoř</h2>
+            <p>Data uložená zde přežijí i restart prohlížeče. Ideální pro uživatelská nastavení.</p>
+            <input type="text" id="db-input" placeholder="Zadej data k uložení..." 
+                   style="width:100%; padding: 12px; border-radius: 4px; border: none; margin-bottom: 10px;">
+            <button class="btn" onclick="ulozitData()">Uložit do prohlížeče</button>
+            <div id="status" style="margin-top: 15px; color: var(--accent); font-weight: bold;"></div>
+        </section>
     </main>
+
+    <div class="sidebar">
+        <div class="card">
+            <h3>Rychlé odkazy</h3>
+            <p>Zde najdeš další soubory ke studiu:</p>
+            <ul style="list-style: none; margin-top: 10px;">
+                <li style="margin-bottom: 8px;"><a href="dom-manipulace.html" style="color: var(--accent); text-decoration: none;">➜ Manipulace s DOM</a></li>
+                <li style="margin-bottom: 8px;"><a href="json-data.html" style="color: var(--accent); text-decoration: none;">➜ Práce s JSON</a></li>
+                <li style="margin-bottom: 8px;"><a href="regex.html" style="color: var(--accent); text-decoration: none;">➜ Regulární výrazy</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Status kurzu</h3>
+            <div style="background: #444; height: 10px; border-radius: 5px; margin-top: 10px;">
+                <div style="background: var(--js-yellow); width: 65%; height: 100%; border-radius: 5px;"></div>
+            </div>
+            <p style="font-size: 0.8rem; margin-top: 5px;">Dokončeno: 65%</p>
+        </div>
+    </div>
 </div>
 
 <script>
-    // Funkce pro Hamburger Menu
+    // Logika Hamburger Menu
     function toggleMenu() {
-        const links = document.getElementById('navLinks');
-        links.classList.toggle('active');
+        const menu = document.getElementById('navMenu');
+        const hamburger = document.getElementById('hamburger');
+        menu.classList.toggle('active');
+        
+        // Animace hamburgeru (nepovinné, ale cool)
+        const spans = hamburger.querySelectorAll('span');
+        if(menu.classList.contains('active')) {
+            spans[0].style.transform = "rotate(45deg) translate(5px, 6px)";
+            spans[1].style.opacity = "0";
+            spans[2].style.transform = "rotate(-45deg) translate(5px, -6px)";
+        } else {
+            spans[0].style.transform = "none";
+            spans[1].style.opacity = "1";
+            spans[2].style.transform = "none";
+        }
     }
 
-    // Zavření menu po kliknutí na odkaz (pro mobily)
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            document.getElementById('navLinks').classList.remove('active');
-        });
-    });
+    // Funkce pro LocalStorage
+    function ulozitData() {
+        const val = document.getElementById('db-input').value;
+        if(val) {
+            localStorage.setItem('js_master_data', val);
+            document.getElementById('status').innerText = "✓ Data byla úspěšně uložena!";
+            setTimeout(() => document.getElementById('status').innerText = "", 3000);
+        }
+    }
 </script>
 
 </body>
