@@ -1,1 +1,189 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurz JavaScriptu pro začátečníky</title>
+    <style>
+        :root {
+            --primary: #f7df1e; /* JS Žlutá */
+            --dark: #222;
+            --light: #f4f4f4;
+            --accent: #323330;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            color: #333;
+            background-color: var(--light);
+        }
+        header {
+            background: var(--dark);
+            color: var(--primary);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 5px solid var(--primary);
+        }
+        nav {
+            background: var(--accent);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: bold;
+        }
+        nav a:hover {
+            color: var(--primary);
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: var(--dark);
+            border-left: 5px solid var(--primary);
+            padding-left: 1rem;
+        }
+        code {
+            background: #eee;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre {
+            background: var(--dark);
+            color: #adff2f;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .tip {
+            background: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--dark);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>JavaScript: Od nuly k hrdinovi 🚀</h1>
+    <p>Kompletní průvodce moderním programováním pro web</p>
+</header>
+
+<nav>
+    <div style="text-align: center;">
+        <a href="#uvod">Úvod</a>
+        <a href="#promenne">Proměnné</a>
+        <a href="#funkce">Funkce</a>
+        <a href="#objekty">Objekty</a>
+        <a href="#dom">DOM</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <section id="uvod">
+        <h2>1. Co je to JavaScript?</h2>
+        <p>JavaScript je programovací jazyk, který dává webovým stránkám "mozek". Zatímco HTML je kostra a CSS je kůže (vzhled), JavaScript určuje, jak se web chová.</p>
+        <div class="tip">
+            <strong>Tip:</strong> JavaScript a Java jsou dva úplně jiné jazyky! Je to jako rozdíl mezi autem a kobercem (Car vs Carpet).
+        </div>
+    </section>
+
+    <section id="promenne">
+        <h2>2. Proměnné (Krabice na data)</h2>
+        <p>Proměnné slouží k ukládání informací. V moderním JS používáme hlavně <code>const</code> a <code>let</code>.</p>
+        <pre>
+// Tuhle hodnotu nemůžu změnit
+const jmeno = "Gemini";
+
+// Tuhle hodnotu můžu přepsat
+let body = 10;
+body = 20; // Teď je v proměnné body 20
+        </pre>
+        
+    </section>
+
+    <section>
+        <h2>3. Typy dat</h2>
+        <ul>
+            <li><strong>String</strong> - Text v uvozovkách: <code>"Ahoj"</code></li>
+            <li><strong>Number</strong> - Čísla: <code>42</code> nebo <code>3.14</code></li>
+            <li><strong>Boolean</strong> - Pravda nebo Lež: <code>true</code> / <code>false</code></li>
+            <li><strong>Array</strong> - Seznam věcí: <code>['jablko', 'banán']</code></li>
+        </ul>
+    </section>
+
+    <section id="funkce">
+        <h2>4. Funkce (Stroje na práci)</h2>
+        <p>Funkce je kousek kódu, který můžete spustit znovu a znovu.</p>
+        <pre>
+// Definice funkce
+const pozdrav = (jmeno) => {
+    return "Ahoj, " + jmeno + "!";
+};
+
+// Spuštění funkce
+console.log(pozdrav("Petře")); 
+        </pre>
+        
+    </section>
+
+    <section id="dom">
+        <h2>5. Ovládání HTML (DOM)</h2>
+        <p>To je to nejzábavnější – pomocí JS měníte to, co uživatel vidí na stránce.</p>
+        <pre>
+// Najdeme prvek na stránce
+const nadpis = document.querySelector('h1');
+
+// Změníme jeho barvu
+nadpis.style.color = 'red';
+
+// Změníme jeho text
+nadpis.innerText = 'Byl jsi hacknut!';
+        </pre>
+    </section>
+
+    <section>
+        <h2>6. Čekání na data (Async/Await)</h2>
+        <p>Když web stahuje data z internetu, musí na ně počkat. K tomu slouží asynchronní funkce.</p>
+        <pre>
+async function nactiUzivatele() {
+    const odpoved = await fetch('https://api.github.com/users/octocat');
+    const data = await odpoved.json();
+    console.log(data.name);
+}
+        </pre>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Kurz JavaScriptu | Vytvořeno s inteligencí</p>
+</footer>
+
+</body>
+</html>
 
