@@ -1,1 +1,162 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Masterclass: Asynchronní JavaScript</title>
+    <style>
+        :root {
+            --async-green: #2ecc71;
+            --async-dark: #27ae60;
+            --bg-dark: #121212;
+            --text-light: #e0e0e0;
+            --warning: #f1c40f;
+        }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: #1a1a1a; color: var(--text-light); line-height: 1.6; }
+
+        nav { background: #000; padding: 1rem 5%; display: flex; justify-content: space-between; position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--async-green); }
+        nav a { color: var(--async-green); text-decoration: none; font-weight: bold; }
+
+        header { padding: 80px 20px; text-align: center; background: radial-gradient(circle, #2c3e50 0%, #000 100%); }
+        h1 { font-size: 3rem; color: var(--async-green); text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+
+        .lesson-block { background: #242424; border-radius: 12px; padding: 35px; margin-bottom: 40px; border-left: 6px solid var(--async-green); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { color: var(--async-green); margin-bottom: 20px; font-size: 1.8rem; }
+
+        .code-window { background: #000; color: #50fa7b; padding: 25px; border-radius: 8px; font-family: 'Consolas', monospace; overflow-x: auto; margin: 20px 0; border: 1px solid #333; }
+        .keyword { color: #ff79c6; }
+        .func { color: #8be9fd; }
+
+        .alert-box { background: rgba(241, 196, 15, 0.1); border: 1px solid var(--warning); padding: 15px; border-radius: 6px; color: var(--warning); margin: 20px 0; }
+
+        /* Simulátor stahování */
+        .simulator { background: #2d2d2d; padding: 30px; border-radius: 12px; text-align: center; border: 2px dashed var(--async-green); }
+        .progress-bar { width: 100%; height: 10px; background: #444; border-radius: 5px; margin: 20px 0; overflow: hidden; display: none; }
+        .progress-fill { width: 0%; height: 100%; background: var(--async-green); transition: width 0.1s; }
+        
+        .btn-async { background: var(--async-green); color: black; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        .btn-async:disabled { background: #555; cursor: not-allowed; }
+
+        footer { text-align: center; padding: 50px; opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">← Zpět na rozcestník</a>
+    <span style="color: white;">Lekce: Asynchronita</span>
+</nav>
+
+<header>
+    <h1>Async / Await & Promises</h1>
+    <p>Nečekejte ve frontě, naučte JavaScript dělat více věcí najednou.</p>
+</header>
+
+<div class="container">
+
+    <section class="lesson-block">
+        <h2>1. Co je to synchronní kód?</h2>
+        <p>Běžný kód se vykonává řádek po řádku. Pokud jeden úkol trvá 5 sekund, celý prohlížeč na 5 sekund zamrzne. To je špatně.</p>
+        
+        [attachment_0](attachment)
+
+        <div class="alert-box">
+            <strong>Důležité:</strong> JavaScript je jednovláknový. Má jen "jedny ruce", ale díky asynchronitě umí úkoly delegovat.
+        </div>
+    </section>
+
+    <section class="lesson-block">
+        <h2>2. Promise (Slib)</h2>
+        <p>Promise je objekt, který reprezentuje hodnotu, která bude dostupná <strong>v budoucnu</strong>. Slib může být splněn (resolved) nebo zamítnut (rejected).</p>
+        
+        <div class="code-window">
+<pre>
+<span class="keyword">const</span> slib = <span class="keyword">new</span> Promise((resolve, reject) => {
+  <span class="keyword">let</span> uspech = <span class="keyword">true</span>;
+  <span class="func">setTimeout</span>(() => {
+    uspech ? <span class="func">resolve</span>(<span class="string">"Data stažena!"</span>) : <span class="func">reject</span>(<span class="string">"Chyba!"</span>);
+  }, 2000);
+});
+</pre>
+        </div>
+    </section>
+
+    <section class="lesson-block">
+        <h2>3. Moderní Async / Await</h2>
+        <p>Tento způsob zápisu vypadá jako synchronní kód, ale pod kapotou pracuje asynchronně. Je to nejčistší cesta k práci s daty.</p>
+        
+        <div class="code-window">
+<pre>
+<span class="keyword">async function</span> <span class="func">nactiData</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> <span class="func">stahovaniZServeru</span>();
+    <span class="func">console</span>.<span class="func">log</span>(data);
+  } <span class="keyword">catch</span> (err) {
+    <span class="func">console</span>.<span class="func">error</span>(err);
+  }
+}
+</pre>
+        </div>
+    </section>
+
+    <section class="simulator">
+        <h3>Interaktivní simulátor Fetch API</h3>
+        <p>Simulujte načítání dat z databáze (trvá 3 sekundy).</p>
+        <div class="progress-bar" id="bar-container">
+            <div class="progress-fill" id="bar-fill"></div>
+        </div>
+        <button class="btn-async" id="fetchBtn" onclick="simulovatStahovani()">Spustit asynchronní akci</button>
+        <p id="status-text" style="margin-top: 15px;"></p>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Async JS Masterclass</p>
+</footer>
+
+<script>
+    async function simulovatStahovani() {
+        const btn = document.getElementById('fetchBtn');
+        const barContainer = document.getElementById('bar-container');
+        const barFill = document.getElementById('bar-fill');
+        const status = document.getElementById('status-text');
+
+        // Reset
+        btn.disabled = true;
+        barContainer.style.display = 'block';
+        barFill.style.width = '0%';
+        status.innerText = "Navazování spojení...";
+        status.style.color = "#f1c40f";
+
+        // Animace progress baru (pro vizualizaci času)
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += 5;
+            barFill.style.width = progress + '%';
+            if(progress >= 100) clearInterval(interval);
+        }, 150);
+
+        // Samotná asynchronní "práce"
+        try {
+            const data = await new Promise((resolve) => {
+                setTimeout(() => resolve("Úspěšně staženo: 250 záznamů."), 3000);
+            });
+            
+            status.innerText = data;
+            status.style.color = "#2ecc71";
+        } catch (e) {
+            status.innerText = "Chyba při stahování!";
+            status.style.color = "#e74c3c";
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
