@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Základy - Průvodce</title>
+    <style>
+        :root {
+            --primary: #f7df1e;
+            --secondary: #222;
+            --bg: #ffffff;
+            --section-bg: #f9f9f9;
+            --accent: #007acc;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: #333; line-height: 1.6; }
+
+        /* Navbar */
+        nav {
+            background: var(--secondary);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav a { color: white; text-decoration: none; font-weight: bold; }
+        .back-link { color: var(--primary); font-size: 0.9rem; }
+
+        /* Layout */
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        
+        header { text-align: center; margin-bottom: 50px; }
+        h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--secondary); }
+        .subtitle { color: #666; font-style: italic; }
+
+        section { margin-bottom: 40px; padding: 30px; background: var(--section-bg); border-radius: 15px; border-left: 5px solid var(--primary); }
+        h2 { margin-bottom: 15px; color: var(--accent); }
+
+        /* Vysvětlující boxíky */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .card strong { display: block; color: var(--secondary); margin-bottom: 5px; }
+
+        /* Kód */
+        pre {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            margin: 15px 0;
+        }
+
+        .highlight { color: var(--primary); font-weight: bold; }
+
+        /* Footer */
+        footer { text-align: center; padding: 40px; color: #888; border-top: 1px solid #eee; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">JS.CORE</a>
+    <a href="index.html" class="back-link">← Zpět na rozcestník</a>
+</nav>
+
+<div class="container">
+    <header>
+        <h1>Základy JavaScriptu</h1>
+        <p class="subtitle">Vše, co potřebuješ vědět, než začneš stavět aplikace.</p>
+    </header>
+
+    <section id="variables">
+        <h2>1. Kde se píše kód?</h2>
+        <p>JavaScript vkládáme do HTML pomocí tagu <code>&lt;script&gt;</code>, nebo ho připojujeme jako externí soubor:</p>
+        <pre>&lt;script src="script.js"&gt;&lt;/script&gt;</pre>
+    </section>
+
+    <section id="syntax">
+        <h2>2. Proměnné (Krabice na data)</h2>
+        <p>Proměnné slouží k ukládání hodnot. Dnes používáme výhradně <strong>let</strong> a <strong>const</strong>.</p>
+        <div class="grid">
+            <div class="card">
+                <strong>let</strong>
+                Pro hodnoty, které se budou měnit (např. skóre v aplikaci).
+            </div>
+            <div class="card">
+                <strong>const</strong>
+                Pro hodnoty, které jsou pevné (např. ID uživatele).
+            </div>
+        </div>
+        <pre>
+let body = 10;
+body = 20; // Funguje
+
+const jmeno = "Petr";
+// jmeno = "Jan"; // CHYBA!</pre>
+    </section>
+
+    <section id="types">
+        <h2>3. Základní datové typy</h2>
+        
+        <p>JavaScript automaticky pozná, o jaký typ dat jde:</p>
+        <ul>
+            <li><strong>String:</strong> Text v uvozovkách <code>"Ahoj"</code></li>
+            <li><strong>Number:</strong> Čísla <code>42</code> nebo <code>3.14</code></li>
+            <li><strong>Boolean:</strong> Logická hodnota <code>true</code> nebo <code>false</code></li>
+        </ul>
+    </section>
+
+    <section id="interaction">
+        <h2>4. První interakce</h2>
+        <p>Zkuste tyto příkazy pro výpis dat:</p>
+        <pre>
+console.log("Zpráva do konzole"); // Pro vývojáře
+alert("Vyskakovací okno");       // Pro uživatele
+prompt("Jak se jmenuješ?");      // Vstup od uživatele</pre>
+    </section>
+
+    <section id="exercise">
+        <h2>⚡ Mini Úkol</h2>
+        <p>Zkuste si v konzoli prohlížeče (F12) napsat tento kód:</p>
+        <pre>
+const jmeno = prompt("Zadej své jméno:");
+console.log("Vítej ve světě JS, " + jmeno + "!");</pre>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Kurz JavaScriptu | Jednoduše. Přehledně. Efektivně.</p>
+    </footer>
+</div>
+
+</body>
+</html>
 
